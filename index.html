@@ -25,6 +25,8 @@
    - v6.2 (Rafa: "esse investimento em anúncio não tá tão legal"): a última pergunta virou "Já investe em anúncios?" Sim/Não,
      na mesma caixa (a régua só usa isso; a faixa só marcava quem gasta mais de R$ 2.500, sem peso na nota);
    - v6.3: no celular o logo e a head ficam centralizados (no computador, à esquerda);
+   - v6.4: quem marca "Sim" vê no obrigado, opcional, "quanto você investe por mês?" (as faixas do Yay em botões). O lead já
+     foi enviado; a faixa vai num complemento (complemento_de = evento_id). No celular o mural sai do obrigado pra caber;
    - botão "Quero acelerar minhas vendas" (Rafa: "se o Começar agora é ruim, tem que melhorar"): repete a promessa do head,
      na voz dele;
    - de antes: um texto só por campo (o título grande sobe quando toca), pilares brancos no computador, obrigado com o número
@@ -170,6 +172,18 @@ h1 em{font-style:normal;color:var(--azul)}
 .confere b{display:block;font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}
 .confere button{flex:none;padding:9px 12px;border-radius:999px;font-size:13.5px;font-weight:700;color:var(--azul)}
 .confere button:hover{background:rgba(59,130,246,.1)}
+.extra{display:grid;gap:10px;padding:14px;border:1px solid var(--line2);border-radius:13px;background:var(--bg2)}
+.feito .extra-t{margin:0;font-size:14.5px;font-weight:700;line-height:1.35;color:var(--txt)}
+.feito .extra-t span{margin-left:4px;font-size:12px;font-weight:600;color:var(--txt3)}
+.feito .extra-n{margin:-6px 0 0;font-size:12px;line-height:1.4;font-weight:500;color:var(--txt2)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{height:34px;padding:0 10px;border-radius:999px;border:1px solid var(--line2);font-size:13px;font-weight:700;color:var(--txt2);transition:border-color .15s,color .15s}
+.chips button:hover{border-color:var(--azul);color:var(--txt)}
+.feito .extra-ok{margin:0;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--txt2)}
+.extra-ok svg{width:16px;height:16px;color:var(--azul);flex:none}
+.extra-ok b{color:var(--txt)}
+/* obrigado no celular: o head ("Preencha o formulário…") e o mural já cumpriram o papel; saem pra pergunta caber sem rolar */
+@media (max-width:919px){.wrap.enviado .mural,.wrap.enviado .titulo{display:none}.wrap.enviado{justify-content:flex-start}}
 .insta{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line2);border-radius:13px;color:var(--txt);text-decoration:none;font-size:14.5px;font-weight:600;line-height:1.35;transition:border-color .2s}
 .insta:hover{border-color:var(--azul)}
 .insta>svg{flex:none;width:22px;height:22px}
@@ -323,6 +337,18 @@ h1 em{font-style:normal;color:var(--azul)}
       <span class="ok"><svg><use href="#i-ok"/></svg></span>
       <h2 id="feito-t">Obrigado!</h2>
       <p>Agora nosso time vai analisar suas informações e te ligar o quanto antes. Até breve!</p>
+      <div class="extra" id="extra" hidden>
+        <p class="extra-t">Pra adiantar a conversa: quanto você investe por mês em anúncios?<span>Opcional</span></p>
+        <p class="extra-n">Só o valor pago direto ao Instagram/Google.</p>
+        <div class="chips" id="chips">
+          <button type="button" data-v="Até R$1.000,00">Até R$ 1 mil</button>
+          <button type="button" data-v="Entre R$1.000,00 e R$1.500,00">R$ 1 a 1,5 mil</button>
+          <button type="button" data-v="Entre R$1.500,00 e R$2.500,00">R$ 1,5 a 2,5 mil</button>
+          <button type="button" data-v="Entre R$2.500,00 e R$5.000,00">R$ 2,5 a 5 mil</button>
+          <button type="button" data-v="Mais de R$5.000,00">Mais de R$ 5 mil</button>
+        </div>
+        <p class="extra-ok" id="extra-ok" hidden><svg><use href="#i-ok"/></svg>Anotado: <b id="extra-v"></b></p>
+      </div>
       <div class="confere">
         <div><span>Vamos te ligar no</span><b id="feito-tel"></b></div>
         <button type="button" id="corrigir">Corrigir</button>
@@ -345,7 +371,9 @@ h1 em{font-style:normal;color:var(--azul)}
      (hoje o Yay manda pro CRM). O que vai: nome, WhatsApp (55 + DDD + número), Instagram, faturamento com o texto exato do Yay,
      investe_anuncios ("Sim" ou "Não"; a v6.1 mandava a faixa, em backups/), de onde veio (utm_*, fbclid, fbp/fbc) e a hora. No ar, o pixel da Apex (2684529388382589) dispara Lead no envio.
      Se a pessoa toca em "Corrigir" no obrigado e envia de novo, o lead novo leva corrige = evento_id do anterior (pro destino
-     atualizar em vez de duplicar), e o pixel não dispara outra vez. */
+     atualizar em vez de duplicar), e o pixel não dispara outra vez.
+     Quem marcou "Sim" e escolhe a faixa no obrigado manda um complemento: { complemento_de: evento_id, investimento_trafego
+     (texto exato do Yay), enviado_em }. É opcional e não trava nada: se falhar, o lead já está lá. */
   const ENVIO_URL = '';
 
   const so = s => String(s || '').replace(/\D/g, '');
@@ -488,7 +516,10 @@ h1 em{font-style:normal;color:var(--azul)}
       enviado = lead.evento_id;
       $('#feito-t').textContent = `${d.nome.split(/\s+/)[0]}, obrigado!`;
       $('#feito-tel').textContent = mascara(d.whatsapp);
+      $('#extra').hidden = d.investe_anuncios !== 'Sim'; $('#chips').hidden = false; $('#extra-ok').hidden = true;
+      $('.wrap').classList.add('enviado');
       $('#form').hidden = true; $('#feito').hidden = false;
+      window.scrollTo(0, 0);
     } catch (err) {
       $('#falha').hidden = false;
     } finally {
@@ -496,9 +527,20 @@ h1 em{font-style:normal;color:var(--azul)}
     }
   });
 
+  /* quanto investe (opcional, depois do envio): manda o complemento e mostra o que foi anotado */
+  $('#chips').addEventListener('click', async e => {
+    const b = e.target.closest('button'); if (!b || !enviado) return;
+    const comp = { complemento_de: enviado, investimento_trafego: b.dataset.v, enviado_em: new Date().toISOString() };
+    $('#chips').hidden = true; $('#extra-v').textContent = b.textContent; $('#extra-ok').hidden = false;
+    try {
+      if (ENVIO_URL) await fetch(ENVIO_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(comp), keepalive: true });
+      else console.info('[prévia] complemento que iria pro destino:', comp);
+    } catch (_) { /* opcional: o lead já foi */ }
+  });
+
   /* número errado: volta pro formulário com tudo preenchido, no WhatsApp */
   $('#corrigir').addEventListener('click', () => {
-    $('#feito').hidden = true; $('#form').hidden = false;
+    $('#feito').hidden = true; $('#form').hidden = false; $('.wrap').classList.remove('enviado');
     const w = $('#whats'); w.focus(); w.setSelectionRange(w.value.length, w.value.length);
   });
 
@@ -511,7 +553,7 @@ h1 em{font-style:normal;color:var(--azul)}
     ['c-nome', 'c-whats', 'c-insta', 'c-fat', 'c-inv'].forEach(id => { limpaErro(id); $('#' + id).classList.remove('cheio'); });
     escolha.fat = ''; $('.val', $('#fat')).textContent = '';
     $$('.lista li').forEach(li => li.setAttribute('aria-selected', 'false'));
-    $('#feito').hidden = true; $('#form').hidden = false; $('#nome').focus();
+    $('#feito').hidden = true; $('#form').hidden = false; $('.wrap').classList.remove('enviado'); $('#nome').focus();
   });
 })();
 </script>
