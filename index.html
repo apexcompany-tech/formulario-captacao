@@ -542,6 +542,14 @@ h1 em{font-style:normal;color:var(--azul)}
   };
 
   let enviado = null;   // evento_id do último envio (pra "Corrigir")
+  function mostraObrigado(d) {
+    $('#feito-t').textContent = `Obrigado, ${d.nome.split(/\s+/)[0]}!`;
+    $('#feito-tel').textContent = mascara(d.whatsapp);
+    $('#extra').hidden = d.investe_anuncios !== 'Sim'; $('#chips').hidden = false; $('#extra-ok').hidden = true;
+    $('.wrap').classList.add('enviado');
+    $('#form').hidden = true; $('#feito').hidden = false;
+    window.scrollTo(0, 0);
+  }
   $('#form').addEventListener('submit', async e => {
     e.preventDefault();
     fechar();
@@ -563,12 +571,7 @@ h1 em{font-style:normal;color:var(--azul)}
       } else { console.info('[prévia] lead que iria pro destino:', lead); await new Promise(r => setTimeout(r, 700)); }
       if (window.fbq && !lead.corrige) window.fbq('track', 'Lead', {}, { eventID: lead.evento_id });   // no ar; na prévia o pixel não existe
       enviado = lead.evento_id;
-      $('#feito-t').textContent = `Obrigado, ${d.nome.split(/\s+/)[0]}!`;
-      $('#feito-tel').textContent = mascara(d.whatsapp);
-      $('#extra').hidden = d.investe_anuncios !== 'Sim'; $('#chips').hidden = false; $('#extra-ok').hidden = true;
-      $('.wrap').classList.add('enviado');
-      $('#form').hidden = true; $('#feito').hidden = false;
-      window.scrollTo(0, 0);
+      mostraObrigado(d);
     } catch (err) {
       $('#falha').hidden = false;
     } finally {
@@ -604,6 +607,13 @@ h1 em{font-style:normal;color:var(--azul)}
   $$('.trilho').forEach(t => t.append(...Array.from(t.children, n => n.cloneNode(true))));
 
   $('#previa').hidden = !!ENVIO_URL;
+
+  /* só na prévia (sem ENVIO_URL): abrir direto no obrigado, sem preencher, pra gente mexer nele.
+     A moldura da prévia manda window.PREVIA_VER; no navegador, o endereço com #obrigado (ou #obrigado-nao, de quem marcou Não). */
+  if (!ENVIO_URL) {
+    const v = window.PREVIA_VER || (location.hash.startsWith('#obrigado') ? { ver: 'obrigado', investe: location.hash === '#obrigado-nao' ? 'Não' : 'Sim' } : null);
+    if (v && v.ver === 'obrigado') { enviado = 'previa'; mostraObrigado({ nome: 'Rafa', whatsapp: '5531988887777', investe_anuncios: v.investe || 'Sim' }); }
+  }
   $('#recomecar').addEventListener('click', () => {
     $('#form').reset(); enviado = null;
     ['c-nome', 'c-whats', 'c-insta', 'c-fat', 'c-inv'].forEach(id => { limpaErro(id); $('#' + id).classList.remove('cheio'); });
