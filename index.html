@@ -36,6 +36,7 @@
      "Conheça alguns dos nossos clientes de sucesso": 8 clientes que ele escolheu, cada um abre o Instagram, com o resultado dos
      que estão nos cases da apresentação. Saíram a faixa de investimento, o número com "Corrigir" e os cases deslizando;
    - v6.7: os clientes passam na horizontal (cartões andando, como o mural; param com o mouse/dedo em cima);
+   - v6.8 (Rafa: "uns com resultado e outros sem fica suspeito"): o cartão é só logo, nome e Instagram, igual pra todos;
    - botão "Quero acelerar minhas vendas" (Rafa: "se o Começar agora é ruim, tem que melhorar"): repete a promessa do head,
      na voz dele;
    - de antes: um texto só por campo (o título grande sobe quando toca), pilares brancos no computador, obrigado com o número
@@ -196,8 +197,6 @@ h1 em{font-style:normal;color:var(--azul)}
 .cl img,.cl .mono{width:56px;height:56px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:var(--card2)}
 .cl .mono{display:grid;place-items:center;font-size:15px;font-weight:800;color:var(--txt2)}
 .cl b{max-width:100%;margin-top:2px;font-size:14px;font-weight:700;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cl small{min-height:2.6em;font-size:12.5px;font-weight:600;line-height:1.3;color:var(--txt2);text-wrap:balance}
-.cl small.res{color:#9cc0ff}
 .cl-ig{display:inline-flex;align-items:center;gap:5px;margin-top:2px;padding:5px 10px;border-radius:999px;border:1px solid var(--line2);font-size:11.5px;font-weight:700;color:var(--txt2);transition:border-color .15s,color .15s}
 .cl:hover .cl-ig{border-color:var(--azul);color:var(--txt)}
 .cl-ig svg{width:13px;height:13px}
@@ -360,19 +359,19 @@ h1 em{font-style:normal;color:var(--azul)}
         <h2>Obrigado, <em id="feito-nome">Rafa</em>!</h2>
         <p class="feito-sub"><b>Agora fique atento ao celular.</b>Em breve, entraremos em contato com você.</p>
       </div>
-      <!-- clientes escolhidos pelo Rafa (06/11); resultado só dos que estão nos cases da apresentação de assessoria; o logo vem do mural, pelo nome -->
+      <!-- clientes escolhidos pelo Rafa (06/11); só logo, nome e Instagram (sem resultado: uns com e outros sem ficava suspeito); o logo vem do mural, pelo nome -->
       <section class="clientes" aria-labelledby="cl-t">
         <h3 id="cl-t">Conheça alguns dos nossos <em>clientes de sucesso</em></h3>
         <div class="vitrine">
           <div class="vitrine-trilho">
-            <a class="cl" href="https://www.instagram.com/boinovo_/" target="_blank" rel="noopener"><img data-logo="Boi Novo" alt="" width="56" height="56"><b>Boi Novo</b><small class="res">R$ 78 mil no cardápio digital</small><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
-            <a class="cl" href="https://www.instagram.com/gomesesilvasantaluzia__/" target="_blank" rel="noopener"><img data-logo="Casa de Carnes Gomes e Silva" alt="" width="56" height="56"><b>Gomes e Silva</b><small class="res">846 contatos no 1º mês</small><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
-            <a class="cl" href="https://www.instagram.com/mercadaodacarnect/" target="_blank" rel="noopener"><img data-logo="Mercadão da Carne" alt="" width="56" height="56"><b>Mercadão da Carne</b><small class="res">R$ 1,5 mi por mês de faturamento</small><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
-            <a class="cl" href="https://www.instagram.com/lamacelleria/" target="_blank" rel="noopener"><img data-logo="La Macelleria" alt="" width="56" height="56"><b>La Macelleria</b><small>Belo Horizonte/MG</small><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
-            <a class="cl" href="https://www.instagram.com/reidocupimsalvador/" target="_blank" rel="noopener"><img data-logo="Rei do Cupim" alt="" width="56" height="56"><b>Rei do Cupim</b><small>Salvador/BA</small><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
-            <a class="cl" href="https://www.instagram.com/acougueprimeyunes/" target="_blank" rel="noopener"><img data-logo="Prime Yunes" alt="" width="56" height="56"><b>Prime Yunes</b><small>São Paulo/SP</small><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
-            <a class="cl" href="https://www.instagram.com/xaviercarnes.am/" target="_blank" rel="noopener"><img data-logo="Xavier Carnes" alt="" width="56" height="56"><b>Xavier Carnes</b><small>Belo Horizonte/MG</small><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
-            <a class="cl" href="https://www.instagram.com/varejaodascarnes_/" target="_blank" rel="noopener"><img data-logo="Varejão das Carnes" alt="" width="56" height="56"><b>Varejão das Carnes</b><small>Socorro/SP</small><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
+            <a class="cl" href="https://www.instagram.com/boinovo_/" target="_blank" rel="noopener"><img data-logo="Boi Novo" alt="" width="56" height="56"><b>Boi Novo</b><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
+            <a class="cl" href="https://www.instagram.com/gomesesilvasantaluzia__/" target="_blank" rel="noopener"><img data-logo="Casa de Carnes Gomes e Silva" alt="" width="56" height="56"><b>Gomes e Silva</b><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
+            <a class="cl" href="https://www.instagram.com/mercadaodacarnect/" target="_blank" rel="noopener"><img data-logo="Mercadão da Carne" alt="" width="56" height="56"><b>Mercadão da Carne</b><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
+            <a class="cl" href="https://www.instagram.com/lamacelleria/" target="_blank" rel="noopener"><img data-logo="La Macelleria" alt="" width="56" height="56"><b>La Macelleria</b><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
+            <a class="cl" href="https://www.instagram.com/reidocupimsalvador/" target="_blank" rel="noopener"><img data-logo="Rei do Cupim" alt="" width="56" height="56"><b>Rei do Cupim</b><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
+            <a class="cl" href="https://www.instagram.com/acougueprimeyunes/" target="_blank" rel="noopener"><img data-logo="Prime Yunes" alt="" width="56" height="56"><b>Prime Yunes</b><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
+            <a class="cl" href="https://www.instagram.com/xaviercarnes.am/" target="_blank" rel="noopener"><img data-logo="Xavier Carnes" alt="" width="56" height="56"><b>Xavier Carnes</b><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
+            <a class="cl" href="https://www.instagram.com/varejaodascarnes_/" target="_blank" rel="noopener"><img data-logo="Varejão das Carnes" alt="" width="56" height="56"><b>Varejão das Carnes</b><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
           </div>
         </div>
       </section>
