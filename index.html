@@ -35,6 +35,7 @@
      "Cadastro feito" + "Obrigado, Rafa!" + "Agora fique atento ao celular. Em breve, entraremos em contato com você." e
      "Conheça alguns dos nossos clientes de sucesso": 8 clientes que ele escolheu, cada um abre o Instagram, com o resultado dos
      que estão nos cases da apresentação. Saíram a faixa de investimento, o número com "Corrigir" e os cases deslizando;
+   - v6.7: os clientes passam na horizontal (cartões andando, como o mural; param com o mouse/dedo em cima);
    - botão "Quero acelerar minhas vendas" (Rafa: "se o Começar agora é ruim, tem que melhorar"): repete a promessa do head,
      na voz dele;
    - de antes: um texto só por campo (o título grande sobe quando toca), pilares brancos no computador, obrigado com o número
@@ -180,22 +181,28 @@ h1 em{font-style:normal;color:var(--azul)}
 .feito h2 em{font-style:normal;color:var(--azul)}
 .feito .feito-sub{margin:0;max-width:360px;font-size:17px;font-weight:600;line-height:1.45;color:var(--txt2);text-wrap:balance}
 .feito .feito-sub b{display:block;color:var(--txt);font-weight:700}
-/* clientes de sucesso: lista no jeito do Instagram */
-.clientes{width:100%;display:grid;gap:14px}
+/* clientes de sucesso: cartões passando na horizontal, como o mural (Rafa 06/11: "faz eles passarem horizontalmente");
+   param com o mouse ou o dedo em cima; o toque abre o Instagram. O JS duplica os cartões pra andar sem emenda */
+.clientes{width:100%;display:grid;gap:16px}
 .clientes h3{margin:0;font-size:20px;font-weight:800;line-height:1.25;letter-spacing:-.025em;text-wrap:balance}
 .clientes h3 em{font-style:normal;color:var(--azul)}
-.lista-cl{list-style:none;margin:0;padding:6px;display:grid;gap:2px;border:1px solid var(--line);border-radius:18px;background:var(--bg2);text-align:left}
-.lista-cl a{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:12px;color:var(--txt);text-decoration:none;transition:background .15s}
-.lista-cl a:hover{background:rgba(255,255,255,.04)}
-.lista-cl img,.lista-cl .mono{flex:none;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:var(--card2)}
-.lista-cl .mono{display:grid;place-items:center;font-size:14px;font-weight:800;color:var(--txt2)}
-.cl-t{flex:1;min-width:0;display:grid;gap:1px}
-.cl-t b{font-size:15px;font-weight:700;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cl-t small{font-size:13px;font-weight:600;line-height:1.3;color:var(--txt2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cl-t small.res{color:#9cc0ff}
-.cl-ig{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line2);color:var(--txt2);transition:border-color .15s,color .15s}
-.lista-cl a:hover .cl-ig{border-color:var(--azul);color:var(--txt)}
-.cl-ig svg{width:17px;height:17px}
+.vitrine{overflow:hidden;margin-inline:calc(var(--pad) * -1);padding-block:2px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.vitrine-trilho{display:flex;gap:10px;padding-right:10px;width:max-content;animation:anda 50s linear infinite}
+.vitrine:hover .vitrine-trilho,.vitrine:active .vitrine-trilho,.vitrine:focus-within .vitrine-trilho{animation-play-state:paused}
+.cl{flex:none;width:172px;display:grid;justify-items:center;align-content:start;gap:6px;padding:16px 12px 14px;border:1px solid var(--line);border-radius:18px;
+  background:var(--bg2);color:var(--txt);text-decoration:none;text-align:center;transition:border-color .15s,background .15s}
+.cl:hover{border-color:var(--line2);background:var(--card2)}
+.cl img,.cl .mono{width:56px;height:56px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:var(--card2)}
+.cl .mono{display:grid;place-items:center;font-size:15px;font-weight:800;color:var(--txt2)}
+.cl b{max-width:100%;margin-top:2px;font-size:14px;font-weight:700;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cl small{min-height:2.6em;font-size:12.5px;font-weight:600;line-height:1.3;color:var(--txt2);text-wrap:balance}
+.cl small.res{color:#9cc0ff}
+.cl-ig{display:inline-flex;align-items:center;gap:5px;margin-top:2px;padding:5px 10px;border-radius:999px;border:1px solid var(--line2);font-size:11.5px;font-weight:700;color:var(--txt2);transition:border-color .15s,color .15s}
+.cl:hover .cl-ig{border-color:var(--azul);color:var(--txt)}
+.cl-ig svg{width:13px;height:13px}
+@media (prefers-reduced-motion:reduce){.vitrine-trilho{animation:none!important}.vitrine{overflow-x:auto}}
+@media (min-width:920px){.vitrine{margin-inline:0}}
 /* depois de enviar: saem o head, o mural e os pilares; fica o logo em cima e o obrigado no meio (celular e computador) */
 .wrap.enviado .titulo,.wrap.enviado .mural,.wrap.enviado .pilares{display:none!important}
 .wrap.enviado{justify-content:flex-start;gap:26px}
@@ -356,16 +363,18 @@ h1 em{font-style:normal;color:var(--azul)}
       <!-- clientes escolhidos pelo Rafa (06/11); resultado só dos que estão nos cases da apresentação de assessoria; o logo vem do mural, pelo nome -->
       <section class="clientes" aria-labelledby="cl-t">
         <h3 id="cl-t">Conheça alguns dos nossos <em>clientes de sucesso</em></h3>
-        <ul class="lista-cl">
-          <li><a href="https://www.instagram.com/boinovo_/" target="_blank" rel="noopener"><img data-logo="Boi Novo" alt="" width="46" height="46"><span class="cl-t"><b>Boi Novo</b><small class="res">R$ 78 mil no cardápio digital</small></span><span class="cl-ig" aria-label="Abrir o Instagram"><svg><use href="#i-insta"/></svg></span></a></li>
-          <li><a href="https://www.instagram.com/gomesesilvasantaluzia__/" target="_blank" rel="noopener"><img data-logo="Casa de Carnes Gomes e Silva" alt="" width="46" height="46"><span class="cl-t"><b>Gomes e Silva</b><small class="res">846 contatos no 1º mês</small></span><span class="cl-ig" aria-label="Abrir o Instagram"><svg><use href="#i-insta"/></svg></span></a></li>
-          <li><a href="https://www.instagram.com/mercadaodacarnect/" target="_blank" rel="noopener"><img data-logo="Mercadão da Carne" alt="" width="46" height="46"><span class="cl-t"><b>Mercadão da Carne</b><small class="res">R$ 1,5 mi por mês de faturamento</small></span><span class="cl-ig" aria-label="Abrir o Instagram"><svg><use href="#i-insta"/></svg></span></a></li>
-          <li><a href="https://www.instagram.com/lamacelleria/" target="_blank" rel="noopener"><img data-logo="La Macelleria" alt="" width="46" height="46"><span class="cl-t"><b>La Macelleria</b><small>Belo Horizonte/MG</small></span><span class="cl-ig" aria-label="Abrir o Instagram"><svg><use href="#i-insta"/></svg></span></a></li>
-          <li><a href="https://www.instagram.com/reidocupimsalvador/" target="_blank" rel="noopener"><img data-logo="Rei do Cupim" alt="" width="46" height="46"><span class="cl-t"><b>Rei do Cupim</b><small>Salvador/BA</small></span><span class="cl-ig" aria-label="Abrir o Instagram"><svg><use href="#i-insta"/></svg></span></a></li>
-          <li><a href="https://www.instagram.com/acougueprimeyunes/" target="_blank" rel="noopener"><img data-logo="Prime Yunes" alt="" width="46" height="46"><span class="cl-t"><b>Prime Yunes</b><small>São Paulo/SP</small></span><span class="cl-ig" aria-label="Abrir o Instagram"><svg><use href="#i-insta"/></svg></span></a></li>
-          <li><a href="https://www.instagram.com/xaviercarnes.am/" target="_blank" rel="noopener"><img data-logo="Xavier Carnes" alt="" width="46" height="46"><span class="cl-t"><b>Xavier Carnes</b><small>Belo Horizonte/MG</small></span><span class="cl-ig" aria-label="Abrir o Instagram"><svg><use href="#i-insta"/></svg></span></a></li>
-          <li><a href="https://www.instagram.com/varejaodascarnes_/" target="_blank" rel="noopener"><img data-logo="Varejão das Carnes" alt="" width="46" height="46"><span class="cl-t"><b>Varejão das Carnes</b><small>Socorro/SP</small></span><span class="cl-ig" aria-label="Abrir o Instagram"><svg><use href="#i-insta"/></svg></span></a></li>
-        </ul>
+        <div class="vitrine">
+          <div class="vitrine-trilho">
+            <a class="cl" href="https://www.instagram.com/boinovo_/" target="_blank" rel="noopener"><img data-logo="Boi Novo" alt="" width="56" height="56"><b>Boi Novo</b><small class="res">R$ 78 mil no cardápio digital</small><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
+            <a class="cl" href="https://www.instagram.com/gomesesilvasantaluzia__/" target="_blank" rel="noopener"><img data-logo="Casa de Carnes Gomes e Silva" alt="" width="56" height="56"><b>Gomes e Silva</b><small class="res">846 contatos no 1º mês</small><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
+            <a class="cl" href="https://www.instagram.com/mercadaodacarnect/" target="_blank" rel="noopener"><img data-logo="Mercadão da Carne" alt="" width="56" height="56"><b>Mercadão da Carne</b><small class="res">R$ 1,5 mi por mês de faturamento</small><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
+            <a class="cl" href="https://www.instagram.com/lamacelleria/" target="_blank" rel="noopener"><img data-logo="La Macelleria" alt="" width="56" height="56"><b>La Macelleria</b><small>Belo Horizonte/MG</small><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
+            <a class="cl" href="https://www.instagram.com/reidocupimsalvador/" target="_blank" rel="noopener"><img data-logo="Rei do Cupim" alt="" width="56" height="56"><b>Rei do Cupim</b><small>Salvador/BA</small><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
+            <a class="cl" href="https://www.instagram.com/acougueprimeyunes/" target="_blank" rel="noopener"><img data-logo="Prime Yunes" alt="" width="56" height="56"><b>Prime Yunes</b><small>São Paulo/SP</small><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
+            <a class="cl" href="https://www.instagram.com/xaviercarnes.am/" target="_blank" rel="noopener"><img data-logo="Xavier Carnes" alt="" width="56" height="56"><b>Xavier Carnes</b><small>Belo Horizonte/MG</small><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
+            <a class="cl" href="https://www.instagram.com/varejaodascarnes_/" target="_blank" rel="noopener"><img data-logo="Varejão das Carnes" alt="" width="56" height="56"><b>Varejão das Carnes</b><small>Socorro/SP</small><span class="cl-ig"><svg><use href="#i-insta"/></svg>Instagram</span></a>
+          </div>
+        </div>
       </section>
       <div class="previa" id="previa"><span>Prévia · o envio é simulado, nada foi gravado.</span><button type="button" id="recomecar">Preencher de novo</button></div>
     </div>
@@ -541,6 +550,9 @@ h1 em{font-style:normal;color:var(--azul)}
     if (m) im.src = m.src;
     else { const s = document.createElement('span'); s.className = 'mono'; s.textContent = im.dataset.logo.split(/\s+/).map(w => w[0]).join('').slice(0, 2); im.replaceWith(s); }
   });
+
+  /* clientes do obrigado: uma cópia dos cartões, pra passar sem emenda (a cópia não entra no leitor de tela nem no Tab) */
+  $$('.vitrine-trilho').forEach(t => t.append(...Array.from(t.children, n => { const c = n.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.tabIndex = -1; return c; })));
 
   /* mural: cada fila ganha uma cópia dos logos, pra andar sem emenda */
   $$('.trilho').forEach(t => t.append(...Array.from(t.children, n => n.cloneNode(true))));
