@@ -7,6 +7,10 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0B0B0C">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B0B0C'/%3E%3Cpath d='M9 16.5l4.5 4.5L23 11.5' fill='none' stroke='%233B82F6' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','2684529388382589');fbq('track','PageView');
+</script>
 <meta name="description" content="Preencha o formulário para acelerar as vendas do seu açougue com quem entende do seu negócio!">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -261,6 +265,7 @@ h1 em{font-style:normal;color:var(--azul)}
 </style>
 </head>
 <body>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=2684529388382589&amp;ev=PageView&amp;noscript=1"></noscript>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
@@ -396,7 +401,7 @@ h1 em{font-style:normal;color:var(--azul)}
      (hoje o Yay manda pro CRM). O que vai: nome, WhatsApp (55 + DDD + número), Instagram, faturamento com o texto exato do Yay,
      investe_anuncios ("Sim" ou "Não"; a v6.1 mandava a faixa, em backups/), de onde veio (utm_*, fbclid, fbp/fbc) e a hora. No ar, o pixel da Apex (2684529388382589) dispara Lead no envio.
      (A v6.5 tinha "Corrigir" o número e a faixa de investimento no obrigado; o Rafa tirou os dois em 06/11, em backups/.) */
-  const ENVIO_URL = '';
+  const ENVIO_URL = 'https://flow.apexcompanymkt.com/webhook/apex/acougue';
 
   const so = s => String(s || '').replace(/\D/g, '');
   function mascara(v) {
